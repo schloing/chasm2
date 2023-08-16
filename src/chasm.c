@@ -16,7 +16,7 @@ int main(void) {
 
     parser.root->children = parser.nodes;
     
-    const char* buffName = "../chasm.ch";
+    const char* buffName = "../src/chasm.ch";
 
     if ((parser.buffer = fopen(buffName, "rb")) == NULL) {
         fprintf(stderr, "%s", "buffName path cannot be found\n");

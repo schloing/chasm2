@@ -4,9 +4,9 @@ project(CHASM2)
 
 # source files
 set(SOURCES
-    ../nodemode/node.c
-    ../chasm.c
-    ../templator.c
+    ../src/nodemode/node.c
+    ../src/chasm.c
+    ../src/templator.c
 )
 
 # executable target

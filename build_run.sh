@@ -1,5 +1,7 @@
 cd build
+make
 
-make && ./CHASM2;
+cd ../src
+../build/CHASM2
 
 cd ..
