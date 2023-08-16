@@ -1,1 +1,0 @@
-/Library/Developer/CommandLineTools/usr/bin/cc  -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/CHASM2.dir/Users/jaisal/Jaisal/chasm2/nodemode/node.c.o CMakeFiles/CHASM2.dir/Users/jaisal/Jaisal/chasm2/chasm.c.o CMakeFiles/CHASM2.dir/Users/jaisal/Jaisal/chasm2/templator.c.o -o CHASM2 

@@ -1,0 +1,8 @@
+*.out
+.DS_STORE
+.git/
+build/CHASM2
+build/CMakeCache.txt
+build/CMakeFiles/
+build/Makefile
+build/cmake_install.cmake
