@@ -12,10 +12,11 @@ typedef enum {
     WHITESPACE,   // take into account whitespace:             <p *attributes*> ... </p>
 } CONTEXT;
 
-// <p class='para'>what a nice paragraph! <span>       so cool!</span></p>
-//  ^^^^^^^^^^^^^^ ^^^^^^^^^^^^^^^^^^^^^^ ^^^^^^       ^^^^^^^^
-//  DECLARATION    WHITESPACE             CHILDNODE    WHITESPACE
-//                                        DECLARATION
+//   <p class='para'>what a nice paragraph! <span>       so cool!</span></p>
+//    ^^^^^^^^^^^^^^ ^^^^^^^^^^^^^^^^^^^^^^ ^^^^^^       ^^^^^^^^
+// >> UNKNOWN        DECLARATION            
+//    DECLARATION    WHITESPACE             CHILDNODE    WHITESPACE
+//                                          DECLARATION
 
 struct Parser {
     NODE*  root;    // root->children = nodes
