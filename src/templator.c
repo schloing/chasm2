@@ -22,37 +22,42 @@ char* scanLiterals(struct Parser* parser, size_t* out) {
     size_t size    = 10, pos = 0;
 
     while (isprint(parser->active)) {
+        // this is hopefully a more efficient way of checking for upcoming '{{' by checking only one character ahead and
+        // checking for other tokens without additional code or functions
+
         switch (parser->active) {
-            case '<': 
-                switch (parser->context) {
-                    case WHITESPACE:
-                        parser->context = CHILDNODE;
-                        break;
-                    default:
-                        parser->context = DECLARATION;
-                }
+            char next = getc(parser->buffer);
+            parser->skipGet = true;
+
+            case '{':
+                if (next == '{')
+                    beginBlock(VARIABLE);
 
                 break;
-
-            case '>': 
-                switch (parser->context) {
-                    case DECLARATION:
-                        parser->context = UNKNOWN;
-                        break;
-                    default:
-                        parser->context = UNKNOWN;
-                }
-
+        
+            case '<':
+                break;
+           
+            case '>':
+                break;
+            
+            case '"':
+                break;
+           
+            case '\'':
                 break;
         }
 
-        if (parser->context != WHITESPACE) skipWhitespace(parser);
+        // begin a variable block
+        // define a new variable in the "heap" and create a node that refers to this "variable"
+        // make this variable accessible in the heap, and upon updating
 
         if (pos > size) 
             literal = (char*)realloc(literal, (size += 10));
 
         literal[pos++] = parser->active;
-        parser->active = getc(parser->buffer);
+        if (parser->skipGet)
+            parser->active = getc(parser->buffer);
     }
 
     if (out != NULL)
