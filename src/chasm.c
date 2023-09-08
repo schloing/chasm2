@@ -23,10 +23,7 @@ int main(void) {
         exit(1);
     }
 
-    while ((parser.active = getc(parser.buffer)) != EOF) {
-        char* literal = scanLiterals(&parser, NULL);
-        printf("literal: %s\n", literal);
-    }
+    parse(parser.buffer);
 
     traverse(parser.root, 0);
     

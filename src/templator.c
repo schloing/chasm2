@@ -3,65 +3,27 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <regex.h>
 
-#define scnltrl(parser) scanLiterals(parser, NULL)
+void parse(FILE* buffer) {
+    regex_t regex;
+    regmatch_t matches[1];
 
-size_t skipWhitespace(struct Parser* parser) {
-    size_t skip = 0;
+    fseek(buffer, 0, SEEK_END);
+    long buffsiz = ftell(buffer);
+    rewind(buffer);
 
-    while (isspace(parser->active) || !isprint(parser->active)) {
-        parser->active = getc(parser->buffer);
-        skip++;
-    }
+    char* buffchar = (char*)malloc(buffsiz + 1);
+    fread(buffchar, 1, buffsiz, buffer);
+    buffchar[buffsiz] = '\0';
 
-    return skip;
-}
+    size_t   comp_    = regcomp(&regex, "(?s)({{.*?}}|{%.*?%}|{#.*?#})", REG_EXTENDED);
+    printf("%zu\n", comp_);
+    size_t   exec_    = regexec(&regex, buffchar, 1, matches, 0);
+    regoff_t position = matches[0].rm_so;
 
-char* scanLiterals(struct Parser* parser, size_t* out) {
-    char*  literal = (char*)malloc(sizeof(char) * 10);
-    size_t size    = 10, pos = 0;
+    printf("%lld", position);
 
-    while (isprint(parser->active)) {
-        // this is hopefully a more efficient way of checking for upcoming '{{' by checking only one character ahead and
-        // checking for other tokens without additional code or functions
-
-        switch (parser->active) {
-            char next = getc(parser->buffer);
-            parser->skipGet = true;
-
-            case '{':
-                if (next == '{')
-                    beginBlock(VARIABLE);
-
-                break;
-        
-            case '<':
-                break;
-           
-            case '>':
-                break;
-            
-            case '"':
-                break;
-           
-            case '\'':
-                break;
-        }
-
-        // begin a variable block
-        // define a new variable in the "heap" and create a node that refers to this "variable"
-        // make this variable accessible in the heap, and upon updating
-
-        if (pos > size) 
-            literal = (char*)realloc(literal, (size += 10));
-
-        literal[pos++] = parser->active;
-        if (parser->skipGet)
-            parser->active = getc(parser->buffer);
-    }
-
-    if (out != NULL)
-        *out = size;
-
-    return literal;
+    regfree(&regex);
+    free(buffchar);
 }

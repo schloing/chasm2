@@ -13,6 +13,8 @@ typedef enum {
     WHITESPACE,   // take into account whitespace:             <p *attributes*> ... </p>
 } CONTEXT;
 
+typedef char* templite;
+
 //   <p class='para'>what a nice paragraph! <span>       so cool!</span></p>
 //    ^^^^^^^^^^^^^^ ^^^^^^^^^^^^^^^^^^^^^^ ^^^^^^       ^^^^^^^^
 // >> UNKNOWN        DECLARATION            
@@ -29,8 +31,9 @@ struct Parser {
     bool    skipGet;
 };
 
-size_t skipWhitespace(struct Parser* parser);
+char*  render(templite templ, char** args);
 char*  scanLiterals(struct Parser* parser, size_t* out);
-void   beginBlock(CONTEXT context);
+size_t skipWhitespace(struct Parser* parser);
+void   parse(FILE* buffer);
 
 #endif
