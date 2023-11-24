@@ -1,0 +1,3 @@
+[submodule "src/wasm-cc"]
+	path = include/wasm-cc
+	url = https://github.com/TheCalculus/wasm-cc.git
